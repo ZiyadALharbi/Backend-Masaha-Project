@@ -9,7 +9,9 @@ import '../../Services/Supabase/SupabaseEnv.dart';
 
 createAccountResponse(Request req) async {
   try {
+    final header = req.headers;
     final body = json.decode(await req.readAsString());
+    final supabase = SupabaseEnv().supabase;
     final auth = SupabaseEnv().supabase.auth;
 
     UserResponse userInfo = await auth.admin.createUser(
@@ -17,20 +19,25 @@ createAccountResponse(Request req) async {
     );
 
     UserModel userObject = UserModel(
-        email: userInfo.user!.email!,
-        idAuth: userInfo.user!.id,
-        name: body["name"],
-        username: body["username"],
-        phone: body["phone"],);
-    
-     await auth.signInWithOtp(email: body['email']);
-     await SupabaseEnv().supabase.from("users1").insert(userObject.toMap());
+      email: userInfo.user!.email!,
+      idAuth: userInfo.user!.id,
+      name: body["name"],
+      username: body["username"],
+      phone: body["phone"],
+    );
 
-     return CustomResponse().successResponse(
+    await auth.signInWithOtp(email: body['email']);
+
+    if (header["user-type"] == "customer") {
+      await supabase.from("customers").insert(userObject.toMap());
+    } else if (header["user-type"] == "owner") {
+      await supabase.from("owners").insert(userObject.toMap());
+    }
+
+    return CustomResponse().successResponse(
       msg: "Account created successfully!",
       data: {"email": body['email'], "username": body['username']},
     );
-
   } catch (error) {
     print(error);
 
