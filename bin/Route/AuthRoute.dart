@@ -1,7 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-
-
 import '../Response/Auth/createAccountResponse.dart';
 import '../Response/Auth/emailVerificationResponse.dart';
 import '../Response/Auth/loginResponse.dart';

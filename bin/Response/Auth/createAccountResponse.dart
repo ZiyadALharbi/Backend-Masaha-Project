@@ -1,8 +1,8 @@
-import 'dart:convert';
+// ignore_for_file: file_names
 
+import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:supabase/supabase.dart';
-
 import '../../Models/UserModel.dart';
 import '../../ResponseMsg/CustomResponse.dart';
 import '../../Services/Supabase/SupabaseEnv.dart';
@@ -12,7 +12,7 @@ createAccountResponse(Request req) async {
     final header = req.headers;
     final body = json.decode(await req.readAsString());
     final supabase = SupabaseEnv().supabase;
-    final auth = SupabaseEnv().supabase.auth;
+    final auth = supabase.auth;
 
     UserResponse userInfo = await auth.admin.createUser(
       AdminUserAttributes(email: body["email"], password: body["password"]),

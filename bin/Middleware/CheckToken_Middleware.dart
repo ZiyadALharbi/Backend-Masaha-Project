@@ -1,6 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
-
 import '../Services/Supabase/SupabaseEnv.dart';
 
 Middleware checkTokenMiddleware() => (innerhandler) => (Request req) {
@@ -21,7 +22,7 @@ Middleware checkTokenMiddleware() => (innerhandler) => (Request req) {
       } on JWTExpiredError {
         print('jwt expired');
 
-        return Response.forbidden("expired is Expired");
+        return Response.forbidden("token is Expired");
       } on JWTError catch (ex) {
         print(ex.message);
 

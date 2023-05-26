@@ -1,9 +1,9 @@
+// ignore_for_file: file_names
+
 import 'dart:io';
 import 'dart:math';
-
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
-
 import '../../Services/Supabase/SupabaseEnv.dart';
 
 addProductImageResponse(Request req, String type) async {
@@ -27,8 +27,10 @@ addProductImageResponse(Request req, String type) async {
   return Response.ok("Image added successfully!");
 }
 
-Future<File> createImage(
-    {required List<int> byte, required randomNumber}) async {
+Future<File> createImage({
+  required List<int> byte,
+  required randomNumber,
+}) async {
   final file = File("bin/images/$randomNumber.png");
   await file.writeAsBytes(byte);
 
@@ -63,7 +65,7 @@ uploadImage({required randomNumber, required File file}) async {
 
   await supabase.upload('images/$randomNumber.png', file);
 
-  final url = await supabase.getPublicUrl('images/$randomNumber.png');
+  final url = supabase.getPublicUrl('images/$randomNumber.png');
 
   return url;
 }
