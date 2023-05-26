@@ -10,7 +10,7 @@ class OwnerRoute {
   Handler get handler {
     final router = Router()
     ..post("/add-product", addProductResponse)
-    ..post("/add-product-image/<name>", addProductImageResponse);
+    ..post("/add-product-image/<type>", addProductImageResponse);
 
     final pipeline =
         Pipeline().addMiddleware(checkTokenMiddleware()).addMiddleware(checkOwner()).addHandler(router);

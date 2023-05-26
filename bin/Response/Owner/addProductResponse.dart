@@ -18,6 +18,7 @@ addProductResponse(Request req) async {
         .eq("id_auth", jwt.payload["sub"]))[0]["id"];
 
     await supabase.from("products").insert({"id_owner": idOwner, ...body});
+    
 
     return CustomResponse().successResponse(msg: "Product added successfully!");
   } catch (error) {
