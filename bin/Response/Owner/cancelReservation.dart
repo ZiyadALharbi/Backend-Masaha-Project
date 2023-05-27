@@ -11,17 +11,8 @@ cancelReservationOwnerResponse(Request req) async {
     final body =
         json.decode(await req.readAsString()); //json - ex: meeting room
     final supabase = SupabaseEnv().supabase;
-    final jwt = JWT.decode(req.headers["authorization"]!);
-    final reservationId = supabase
-        .from('reservations')
-        .select('id')
-        .eq("id_auth", jwt.payload["sub"]);
 
-    await supabase
-        .from('reservations')
-        .delete()
-        .eq('id', reservationId)
-        .eq('product-type', body['type']);
+    await supabase.from('reservations').delete().eq('id', body["id"]);
 
     return CustomResponse().successResponse(msg: "deleted");
   } catch (error) {

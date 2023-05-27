@@ -10,20 +10,18 @@ cancelReservationCustomerResponse(Request req) async {
     final body = json.decode(await req.readAsString());
     final supabase = SupabaseEnv().supabase;
     final jwt = JWT.decode(req.headers["authorization"]!);
-    final reservationId = supabase
-        .from('reservations')
-        .select('id')
-        .eq("id_auth", jwt.payload["sub"]);
 
     await supabase
         .from('reservations')
         .delete()
-        .eq('id', reservationId)
-        .eq('product-type', body['type']);
+        .eq('id', body["id"])
+        .eq('product_type', body['type']);
 
     return CustomResponse()
-        .successResponse(msg: "Reservation Canceled Successfuly");
+        .successResponse(msg: "Reservation Canceled Successfully");
   } catch (error) {
+    print(error);
+
     return CustomResponse().errorResponse(msg: "Sorry, try again later");
   }
 }

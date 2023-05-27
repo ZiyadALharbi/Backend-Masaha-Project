@@ -13,9 +13,10 @@ displayProductResponse(Request _, String type) async {
         .select("type, description, price, owner_username")
         .eq("type", type);
 
-    return CustomResponse()
-        .successResponse(msg: "Successfully", data: choosingType);
+    return Response.ok(json.encode(choosingType), headers:{"content-type": "application/json"});
   } catch (e) {
+    print(e);
+
     return CustomResponse().errorResponse(msg: json.encode(e));
   }
 }
