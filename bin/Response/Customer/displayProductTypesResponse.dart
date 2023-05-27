@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shelf/shelf.dart';
 
-displayPrTypesResponse(Request req) async {
+displayProductTypesResponse(Request _) async {
   try {
     Map<String, List<String>> productTypeMap = {
       "Product Type": [
