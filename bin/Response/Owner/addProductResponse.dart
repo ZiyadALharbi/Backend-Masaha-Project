@@ -12,16 +12,14 @@ addProductResponse(Request req) async {
     final jwt = JWT.decode(req.headers["authorization"]!);
     final supabase = SupabaseEnv().supabase;
 
-    final owners = await supabase
+    final idOwner = (await supabase
         .from("owners")
         .select()
-        .eq("id_auth", jwt.payload["sub"]);
-
-    final idOwner = owners[0]["id"];
-    final ownerUsername = owners[0]["username"];
+        .eq("id_auth", jwt.payload["sub"]))[0]['id'];
 
     await supabase.from("products").insert(
-        {"id_owner": idOwner, "owner_username": ownerUsername, ...body},);
+      {"id_owner": idOwner, ...body},
+    );
 
     return CustomResponse().successResponse(msg: "Product added successfully!");
   } catch (error) {
