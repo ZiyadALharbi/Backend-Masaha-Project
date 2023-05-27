@@ -1,9 +1,7 @@
-// ignore_for_file: file_names
-
 import 'dart:convert';
 import 'package:shelf/shelf.dart';
 
-displayPrTypesResponse(Request _) async {
+displayProductTypesResponse(Request _) async {
   try {
     Map<String, List<String>> productTypeMap = {
       "Product Type": [
