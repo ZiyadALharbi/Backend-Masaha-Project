@@ -13,7 +13,7 @@ class OwnerRoute {
     final router = Router()
       ..post("/add-product", addProductResponse)
       ..post("/add-product-image/<type>", addProductImageResponse)
-      ..post('/cancel-reservation-owner', cancelReservationOwnerResponse);
+      ..delete('/cancel-reservation-owner', cancelReservationOwnerResponse);
 
     final pipeline = Pipeline()
         .addMiddleware(checkTokenMiddleware())
