@@ -2,6 +2,7 @@
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
+import '../Response/displayProfileResponse.dart';
 import 'AuthRoute.dart';
 import 'CustomerRoute.dart';
 import 'OwnerRoute.dart';
@@ -12,6 +13,7 @@ class BaseRoute {
       ..mount('/auth', AuthRoute().handler)
       ..mount('/owner', OwnerRoute().handler)
       ..mount("/customer", CustomerRoute().handler)
+      ..get('/profile', displayProfileResponse)
       ..all('/<name|.*>', (Request _) {
         return Response.notFound("Page not found, please change your path");
       });
