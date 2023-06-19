@@ -9,13 +9,7 @@ import '../../Services/Supabase/SupabaseEnv.dart';
 addProductResponse(Request req) async {
   try {
     final body = json.decode(await req.readAsString());
-    String? token = req.headers["authorization"];
-    
-    if (token!.startsWith("Bearer")) {
-      token = token.substring(6, token.length).trim();
-    }
-
-    final jwt = JWT.decode(token.trim());
+    final jwt = JWT.decode(req.headers["authorization"]!);
     final supabase = SupabaseEnv().supabase;
 
     final owner = (await supabase

@@ -16,17 +16,34 @@ displayBookmarkResponse(Request req) async {
         .from("customers")
         .select("id")
         .eq("id_auth", jwt.payload["sub"]);
+
     final bookmarkData = await supabase
         .from("bookmarks")
-        .select()
+        .select("*, products(*)")
         .eq("id_customer", idCustomer[0]["id"]);
-    
 
-    return Response.ok(json.encode(bookmarkData),
-        headers: {'Content-Type': 'application/json'},);
+    print(bookmarkData);
+
+    List images = [];
+    for (final item in bookmarkData) {
+       images = await supabase
+          .from("images")
+          .select()
+          .eq("id_product", item["products"]["id"]);
+      item["images"] = images;
+    }
+
+    return Response.ok(
+      json.encode(bookmarkData),
+      headers: {'Content-Type': 'application/json'},
+    );
   } catch (e) {
     print(e);
 
     return CustomResponse().errorResponse(msg: "Sorry, try again later");
   }
 }
+
+ // for (final item in bookmarkData) {
+    //   item["images"] = images;
+    // }

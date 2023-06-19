@@ -12,8 +12,10 @@ displayProductsResponse(Request _) async {
         .from("products")
         .select('*, images(id, url_image, id_product)');
 
-    return Response.ok(json.encode(products),
-        headers: {"content-type": "application/json"},);
+    return Response.ok(
+      json.encode(products),
+      headers: {"content-type": "application/json"},
+    );
   } catch (e) {
     print(e);
 
