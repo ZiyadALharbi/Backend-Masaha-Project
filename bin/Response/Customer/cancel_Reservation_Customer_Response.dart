@@ -14,8 +14,7 @@ cancelReservationCustomerResponse(Request req) async {
     await supabase
         .from('reservations')
         .delete()
-        .eq('id', body["id"])
-        .eq('product_type', body['type']);
+        .eq('id', body["id"]);
 
     return CustomResponse()
         .successResponse(msg: "Reservation Canceled Successfully");

@@ -5,12 +5,12 @@ import 'package:shelf/shelf.dart';
 import '../../ResponseMsg/CustomResponse.dart';
 import '../../Services/Supabase/supabaseEnv.dart';
 
-displayProductResponse(Request _, String type) async {
+displayProductByTypeResponse(Request _, String type) async {
   try {
     final choosingType = await SupabaseEnv()
         .supabase
         .from("products")
-        .select("type, description, price, owner_username")
+        .select()
         .eq("type", type);
 
     return Response.ok(json.encode(choosingType), headers:{"content-type": "application/json"});

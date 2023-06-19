@@ -9,20 +9,29 @@ import '../../Services/Supabase/SupabaseEnv.dart';
 addProductResponse(Request req) async {
   try {
     final body = json.decode(await req.readAsString());
-    final jwt = JWT.decode(req.headers["authorization"]!);
+    String? token = req.headers["authorization"];
+    
+    if (token!.startsWith("Bearer")) {
+      token = token.substring(6, token.length).trim();
+    }
+
+    final jwt = JWT.decode(token.trim());
     final supabase = SupabaseEnv().supabase;
 
-    final idOwner = (await supabase
+    final owner = (await supabase
         .from("owners")
         .select()
-        .eq("id_auth", jwt.payload["sub"]))[0]['id'];
+        .eq("id_auth", jwt.payload["sub"]));
 
+    final id = owner[0]["id"];
+    final username = owner[0]["username"];
+    
     await supabase.from("products").insert(
-      {"id_owner": idOwner, ...body},
+      {"id_owner": id, "owner_username": username, ...body},
     );
-
+    
     return CustomResponse().successResponse(msg: "Product added successfully!");
   } catch (error) {
-    return CustomResponse().errorResponse(msg: "Sorry, try again later");
+    print(error);
   }
 }

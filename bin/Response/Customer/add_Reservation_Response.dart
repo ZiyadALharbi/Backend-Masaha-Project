@@ -6,7 +6,7 @@ import 'package:shelf/shelf.dart';
 import '../../ResponseMsg/CustomResponse.dart';
 import '../../Services/Supabase/SupabaseEnv.dart';
 
-chooseProductResponse(Request req) async {
+addReservationResponse(Request req) async {
   try {
     final header = req.headers;
     final body = json.decode(await req.readAsString());
@@ -18,20 +18,24 @@ chooseProductResponse(Request req) async {
         .select("username, id")
         .eq("id_auth", jwt.payload["sub"]);
 
-    final reservationData = await supabase
+    final productData = await supabase
         .from("products")
-        .select("id, type, price, id_owner, owner_username")
-        .eq("type", body["type"])
-        .eq("owner_username", body["owner_username"]);
+        .select("id, type, price, id_owner, owner_username,name,plan_type")
+        .eq("id", body["id"]);
 
     await supabase.from("reservations").insert({
-      "id_owner": reservationData[0]["id_owner"],
+      "id_owner": productData[0]["id_owner"],
       "id_customer": customerUsername[0]["id"],
-      "id_product": reservationData[0]["id"],
+      "id_product": productData[0]["id"],
       "customer_username": customerUsername[0]["username"],
-      "owner_username": reservationData[0]["owner_username"],
-      "product_type": reservationData[0]["type"],
-      "product_price": reservationData[0]["price"],
+      "owner_username": productData[0]["owner_username"],
+      "product_type": productData[0]["type"],
+      "product_price": productData[0]["price"],
+      "product_name": productData[0]["name"],
+      "product_plan": productData[0]["plan_type"],
+      "customer_email": body["email"],
+      "customer_name": body["name"],
+      "customer_phone": body["phone"],
     });
 
     return CustomResponse().successResponse(msg: "Successful Reservation");

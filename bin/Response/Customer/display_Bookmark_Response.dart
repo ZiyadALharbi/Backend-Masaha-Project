@@ -16,11 +16,11 @@ displayBookmarkResponse(Request req) async {
         .from("customers")
         .select("id")
         .eq("id_auth", jwt.payload["sub"]);
-
     final bookmarkData = await supabase
         .from("bookmarks")
         .select()
         .eq("id_customer", idCustomer[0]["id"]);
+    
 
     return Response.ok(json.encode(bookmarkData),
         headers: {'Content-Type': 'application/json'},);

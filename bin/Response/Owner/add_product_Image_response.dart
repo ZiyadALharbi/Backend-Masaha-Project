@@ -6,7 +6,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
 import '../../Services/Supabase/SupabaseEnv.dart';
 
-addProductImageResponse(Request req, String type) async {
+addProductImageResponse(Request req, String productID) async {
   final byte = await req.read().expand((element) => element).toList();
   final userInfo = JWT.decode(req.headers["authorization"]!);
 
@@ -14,7 +14,7 @@ addProductImageResponse(Request req, String type) async {
   final image = await createImage(byte: byte, randomNumber: randomNumber);
 
   final ownerID = await getIDOwner(idAuth: userInfo.payload["sub"]);
-  final productID = await getIDProduct(ownerID: ownerID, type: type);
+  // final productID = await getIDProduct(ownerID: ownerID);
 
   final url = await uploadImage(
     file: image,
@@ -22,7 +22,7 @@ addProductImageResponse(Request req, String type) async {
   );
 
   await image.delete();
-  await sendURL(url: url, productID: productID);
+  await sendURL(url: url, productID: int.parse(productID));
 
   return Response.ok("Image added successfully!");
 }
@@ -48,17 +48,16 @@ getIDOwner({required String idAuth}) async {
   return ownerID;
 }
 
-getIDProduct({required ownerID, required String type}) async {
-  final supabase = SupabaseEnv().supabase;
+// getIDProduct({required ownerID}) async {
+//   final supabase = SupabaseEnv().supabase;
 
-  final productID = (await supabase
-      .from("products")
-      .select("id")
-      .eq("id_owner", ownerID)
-      .eq("type", type))[0]["id"];
+//   final productID = (await supabase
+//       .from("products")
+//       .select("id")
+//       .eq("id_owner", ownerID))[0]["id"];
 
-  return productID;
-}
+//   return productID;
+// }
 
 uploadImage({required randomNumber, required File file}) async {
   final supabase = SupabaseEnv().supabase.storage.from("ProductImages");
@@ -78,3 +77,9 @@ sendURL({required int productID, required String url}) async {
 
   return result;
 }
+
+// final productID = (await supabase
+//       .from("products")
+//       .select("id")
+//       .eq("id_owner", ownerID)
+//       .eq("type", type))[0]["id"];

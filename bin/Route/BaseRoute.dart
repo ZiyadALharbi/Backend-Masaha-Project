@@ -2,7 +2,7 @@
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import '../Response/displayProfileResponse.dart';
+import '../Response/display_profile_response.dart';
 import 'AuthRoute.dart';
 import 'CustomerRoute.dart';
 import 'OwnerRoute.dart';
