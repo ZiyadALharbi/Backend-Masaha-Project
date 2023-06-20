@@ -28,9 +28,9 @@ createAccountResponse(Request req) async {
 
     await auth.signInWithOtp(email: body['email']);
 
-    if (header["user-type"] == "customer") {
+    if (body["user-type"] == "customer") {
       await supabase.from("customers").insert(userObject.toMap());
-    } else if (header["user-type"] == "owner") {
+    } else if (body["user-type"] == "owner") {
       await supabase.from("owners").insert(userObject.toMap());
     }
 

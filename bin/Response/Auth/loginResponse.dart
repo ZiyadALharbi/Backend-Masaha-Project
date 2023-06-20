@@ -19,11 +19,21 @@ loginResponse(Request req) async {
       password: body["password"],
     );
 
+    String userType = "customer";
+    final supabase = SupabaseEnv().supabase;
+    final result = await supabase.from("owners").select().eq("email", body["email"]);
+
+    final List idUser = result;
+    if(idUser.isNotEmpty){
+      userType = "owner";
+    }
+
     return CustomResponse().successResponse(
       msg: "success",
       data: {
         "token": userLogin.session?.accessToken.toString(),
         "refresh Token": userLogin.session?.refreshToken.toString(),
+        "UserType": userType,
       },
     );
   } catch (error) {
