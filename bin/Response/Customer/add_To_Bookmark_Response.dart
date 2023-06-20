@@ -25,10 +25,11 @@ addToBookmarktResponse(Request req) async {
       "id_customer": customerId[0]["id"],
       "id_product": data[0]["id"],
     });
-
+  
     return CustomResponse()
         .successResponse(msg: "Added to bookmark successfully!");
   } catch (error) {
+    print(error);
     return CustomResponse().errorResponse(msg: "Sorry, try again later");
   }
 }
