@@ -7,7 +7,7 @@ import '../../Services/Supabase/SupabaseEnv.dart';
 
 displayProductsResponse(Request _) async {
   try {
-    final products = await SupabaseEnv()
+    final List products = await SupabaseEnv()
         .supabase
         .from("products")
         .select();

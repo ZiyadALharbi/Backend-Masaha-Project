@@ -35,6 +35,7 @@ addReservationResponse(Request req) async {
       "customer_email": body["email"],
       "customer_name": body["name"],
       "customer_phone": body["phone"],
+      "date": body["date"],
     });
 
     return CustomResponse().successResponse(msg: "Successful Reservation");
