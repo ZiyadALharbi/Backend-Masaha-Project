@@ -10,7 +10,7 @@ displayProductsResponse(Request _) async {
     final products = await SupabaseEnv()
         .supabase
         .from("products")
-        .select('*, images(id, url_image, id_product)');
+        .select();
 
     return Response.ok(
       json.encode(products),
@@ -23,7 +23,7 @@ displayProductsResponse(Request _) async {
   }
 }
 
-
+// '*, images(id, url_image, id_product)'
  // final imageUrl = '';
     // final newProducts = products.map(
     //   (product) => {

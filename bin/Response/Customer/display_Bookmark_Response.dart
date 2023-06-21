@@ -24,14 +24,15 @@ displayBookmarkResponse(Request req) async {
 
     print(bookmarkData);
 
-    List images = [];
-    for (final item in bookmarkData) {
-       images = await supabase
-          .from("images")
-          .select()
-          .eq("id_product", item["products"]["id"]);
-      item["images"] = images;
-    }
+    // List images = [];
+    // for (final item in bookmarkData) {
+    //    images = await supabase
+    //       .from("images")
+    //       .select()
+    //       .eq("id_product", item["products"]["id"]);
+    //   item["images"] = images;
+    // }
+    print(bookmarkData);
 
     return Response.ok(
       json.encode(bookmarkData),
