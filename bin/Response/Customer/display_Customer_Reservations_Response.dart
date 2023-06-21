@@ -20,7 +20,7 @@ displayCustomerReservationsResponse(Request req) async {
 
     final reservationsData = await supabase
         .from("reservations")
-        .select()
+        .select("*, products(*)")
         .eq("id_customer", idCustomer[0]["id"]);
 
     return Response.ok(json.encode(reservationsData),
